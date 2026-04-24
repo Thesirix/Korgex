@@ -2,8 +2,6 @@
 
 <img src="images/logo.png" alt="Korgex" width="280"/>
 
-# KORGEX
-
 **Desktop Beat Machine & MIDI Sequencer**
 
 [![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
@@ -13,7 +11,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows&logoColor=white)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-22C55E?style=flat-square)](LICENSE)
 
-*A hardware-inspired beat machine for the desktop — 16-step sequencer, real-time mixing, and a chromatic piano roll editor.*
+_A hardware-inspired beat machine for the desktop — 16-step sequencer, real-time mixing, and a chromatic piano roll editor._
 
 </div>
 
@@ -31,15 +29,15 @@ The interface is designed to look and feel like a piece of hardware placed direc
 
 ## Features
 
-| | Feature | Description |
-|---|---|---|
-| 🥁 | **16-Step Sequencer** | Classic step-sequencer grid with 8 sample tracks |
-| 🎹 | **Piano Roll Editor** | Per-track chromatic note editor (C2–B5, 48 pitches) |
-| 🎚️ | **Real-time Mixing** | Low-latency PyAudio callback pipeline with 16-bit PCM mixing |
-| 🎵 | **Pitch Shifting** | NumPy resampling to transpose any sample across the full chromatic scale |
-| ⏱️ | **Live BPM Control** | Adjustable tempo 80–160 BPM with LCD-style display |
-| 🖥️ | **Borderless UI** | Frameless hardware-style window, fully draggable from the top bar |
-| 🔊 | **Sample Preview** | Click any track name to audition the sample instantly |
+|     | Feature               | Description                                                              |
+| --- | --------------------- | ------------------------------------------------------------------------ |
+| 🥁  | **16-Step Sequencer** | Classic step-sequencer grid with 8 sample tracks                         |
+| 🎹  | **Piano Roll Editor** | Per-track chromatic note editor (C2–B5, 48 pitches)                      |
+| 🎚️  | **Real-time Mixing**  | Low-latency PyAudio callback pipeline with 16-bit PCM mixing             |
+| 🎵  | **Pitch Shifting**    | NumPy resampling to transpose any sample across the full chromatic scale |
+| ⏱️  | **Live BPM Control**  | Adjustable tempo 80–160 BPM with LCD-style display                       |
+| 🖥️  | **Borderless UI**     | Frameless hardware-style window, fully draggable from the top bar        |
+| 🔊  | **Sample Preview**    | Click any track name to audition the sample instantly                    |
 
 ---
 
@@ -61,12 +59,12 @@ Each track features a dedicated **ROLL** button that opens the piano roll editor
 ## Requirements
 
 | Package | Version |
-|---|---|
-| Python | 3.9+ |
-| Kivy | 2.3.1 |
-| PyAudio | 0.2.14 |
-| NumPy | 2.x |
-| Pillow | any |
+| ------- | ------- |
+| Python  | 3.9+    |
+| Kivy    | 2.3.1   |
+| PyAudio | 0.2.14  |
+| NumPy   | 2.x     |
+| Pillow  | any     |
 
 ---
 
@@ -90,16 +88,16 @@ python main.py
 
 ## Controls
 
-| Control | Action |
-|---|---|
-| **▶ Play** | Start the step sequencer |
-| **■ Stop** | Stop playback and reset the cursor |
-| **− / +** | Decrease / increase BPM by 5 |
-| **Step buttons** | Toggle steps on / off for a track |
-| **Track name button** | Preview the sample instantly |
-| **ROLL** | Open the piano roll for that track |
-| **Drag top bar** | Move the window anywhere on screen |
-| **⏻** | Close the application |
+| Control               | Action                             |
+| --------------------- | ---------------------------------- |
+| **▶ Play**            | Start the step sequencer           |
+| **■ Stop**            | Stop playback and reset the cursor |
+| **− / +**             | Decrease / increase BPM by 5       |
+| **Step buttons**      | Toggle steps on / off for a track  |
+| **Track name button** | Preview the sample instantly       |
+| **ROLL**              | Open the piano roll for that track |
+| **Drag top bar**      | Move the window anywhere on screen |
+| **⏻**                 | Close the application              |
 
 ---
 
@@ -142,6 +140,7 @@ PyAudio output stream  (callback, 44 100 Hz / 16-bit mono)
 ```
 
 Each `AudioSourceTrack` checks, for the current step:
+
 1. **Piano roll note** → play pitch-shifted sample (NumPy resampling)
 2. **Step button active** → play original sample
 3. **Neither** → silence (with tail continuation from previous trigger)
@@ -150,16 +149,16 @@ Each `AudioSourceTrack` checks, for the current step:
 
 ## Sample Kit
 
-| Track | File | Type |
-|---|---|---|
-| KICK | `sounds/kit1/kick.wav` | Drum |
-| CLAP | `sounds/kit1/clap.wav` | Drum |
-| SHAKER | `sounds/kit1/shaker.wav` | Percussion |
-| SNARE | `sounds/kit1/snare.wav` | Drum |
-| BASS | `sounds/kit1/bass.wav` | Melodic |
-| EFFECTS | `sounds/kit1/effects.wav` | FX |
-| PLUCK | `sounds/kit1/pluck.wav` | Melodic |
-| VOCAL | `sounds/kit1/vocal_chop.wav` | Vocal |
+| Track   | File                         | Type       |
+| ------- | ---------------------------- | ---------- |
+| KICK    | `sounds/kit1/kick.wav`       | Drum       |
+| CLAP    | `sounds/kit1/clap.wav`       | Drum       |
+| SHAKER  | `sounds/kit1/shaker.wav`     | Percussion |
+| SNARE   | `sounds/kit1/snare.wav`      | Drum       |
+| BASS    | `sounds/kit1/bass.wav`       | Melodic    |
+| EFFECTS | `sounds/kit1/effects.wav`    | FX         |
+| PLUCK   | `sounds/kit1/pluck.wav`      | Melodic    |
+| VOCAL   | `sounds/kit1/vocal_chop.wav` | Vocal      |
 
 All samples are loaded as **16-bit signed PCM** via Python's built-in `wave` module. The assumed recording pitch for pitch shifting is **C4 (MIDI 60)**.
 
@@ -168,4 +167,5 @@ All samples are loaded as **16-bit signed PCM** via Python's built-in `wave` mod
 ## License
 
 MIT © 2024 — Built with Kivy, PyAudio & NumPy.
+
 # Korgex

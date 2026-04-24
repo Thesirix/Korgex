@@ -11,7 +11,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows&logoColor=white)](https://microsoft.com)
 [![License](https://img.shields.io/badge/License-MIT-22C55E?style=flat-square)](LICENSE)
 
-_A hardware-inspired beat machine for the desktop — 16-step sequencer, real-time mixing, and a chromatic piano roll editor._
+_A hardware-inspired beat machine for the desktop - 16-step sequencer, real-time mixing, and a chromatic piano roll editor._
 
 </div>
 
@@ -23,7 +23,7 @@ _A hardware-inspired beat machine for the desktop — 16-step sequencer, real-ti
 
 **Korgex** is a desktop music production tool built with [Kivy](https://kivy.org) and [PyAudio](https://pypi.org/project/PyAudio). It delivers a tactile, hardware-inspired interface for building rhythmic and melodic patterns with up to **8 simultaneous sample tracks**, real-time BPM control, and a full-featured **piano roll** for note-level editing.
 
-The interface is designed to look and feel like a piece of hardware placed directly on the screen — borderless, draggable, and always-on-top capable.
+The interface is designed to look and feel like a piece of hardware placed directly on the screen - borderless, draggable, and always-on-top capable.
 
 ---
 
@@ -50,7 +50,7 @@ Each track features a dedicated **ROLL** button that opens the piano roll editor
 - **Click** a cell to place a MIDI note at that pitch and step position
 - **Click again** on an existing note to erase it
 - **Bar markers** every 4 steps for easy arrangement reading
-- Notes are pitch-shifted via real-time resampling — placing a note at E4 transposes the sample a major third up from its original C4 pitch
+- Notes are pitch-shifted via real-time resampling - placing a note at E4 transposes the sample a major third up from its original C4 pitch
 - **CLEAR** removes all piano roll notes from the current track
 - The editor scrolls vertically through all 48 pitches (C2 to B5), centered on **C4** by default
 
@@ -71,18 +71,18 @@ Each track features a dedicated **ROLL** button that opens the piano roll editor
 ## Installation
 
 ```bash
-# 1 — Clone or download the project
+# 1 - Clone or download the project
 git clone https://github.com/yourname/korgex.git
 cd korgex
 
-# 2 — Install dependencies
+# 2 - Install dependencies
 pip install kivy pyaudio numpy pillow
 
-# 3 — Launch
+# 3 - Launch
 python main.py
 ```
 
-> **Windows note:** PyAudio `0.2.14` ships pre-built wheels for Python 3.13 on Windows — no C build tools required.
+> **Windows note:** PyAudio `0.2.14` ships pre-built wheels for Python 3.13 on Windows - no C build tools required.
 
 ---
 
@@ -166,6 +166,6 @@ All samples are loaded as **16-bit signed PCM** via Python's built-in `wave` mod
 
 ## License
 
-MIT © 2024 — Built with Kivy, PyAudio & NumPy.
+MIT © 2024 - Built with Kivy, PyAudio & NumPy.
 
 # Korgex

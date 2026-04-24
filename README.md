@@ -167,5 +167,3 @@ All samples are loaded as **16-bit signed PCM** via Python's built-in `wave` mod
 ## License
 
 MIT © 2024 - Built with Kivy, PyAudio & NumPy.
-
-# Korgex

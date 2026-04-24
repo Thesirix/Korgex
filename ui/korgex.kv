@@ -1,0 +1,154 @@
+#:import track track
+#:import play_indicator play_indicator
+
+MainWidget:
+
+<VerticalSpacingWidget>:
+    size_hint_y: 0.01
+
+<ControlButton@Button>:
+
+<DragTopBar>:
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.09, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<MainWidget>:
+    tracks_layout: tracks_layout
+    play_indicator_widget: play_indicator_widget
+
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.09, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 0
+
+        # ── Top bar (drag anywhere except buttons) ──
+        DragTopBar:
+            size_hint_y: None
+            height: dp(60)
+
+            Image:
+                source: "images/top_background.png"
+                allow_stretch: True
+                keep_ratio: False
+                pos: self.parent.pos
+                size: self.parent.size
+
+            # Logo
+            Image:
+                source: "images/logo.png"
+                width: dp(200)
+                size_hint_x: None
+                allow_stretch: True
+                keep_ratio: True
+                pos_hint: {"center_y": 0.5}
+                x: dp(8)
+
+            # Play / Stop
+            BoxLayout:
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                width: dp(130)
+                size_hint_x: None
+                spacing: dp(4)
+                ControlButton:
+                    on_press: root.on_play_button_pressed()
+                    background_normal: "images/play_button_normal.png"
+                    background_down: "images/play_button_down.png"
+                ControlButton:
+                    on_press: root.on_stop_button_pressed()
+                    background_normal: "images/stop_button_normal.png"
+                    background_down: "images/stop_button_down.png"
+
+            # BPM + Close
+            BoxLayout:
+                width: dp(210)
+                size_hint_x: None
+                pos_hint: {"right": 1, "center_y": 0.5}
+                spacing: dp(2)
+                padding: [0, dp(4), dp(4), dp(4)]
+
+                ControlButton:
+                    size_hint_x: None
+                    width: dp(28)
+                    on_press: root.bpm -= 5
+                    background_normal: "images/minus_button_normal.png"
+                    background_down: "images/minus_button_down.png"
+
+                RelativeLayout:
+                    size_hint_x: None
+                    width: dp(88)
+                    Image:
+                        source: "images/bpm_lcd_background.png"
+                        allow_stretch: True
+                        keep_ratio: False
+                    Label:
+                        pos: -dp(4), dp(2)
+                        text: "888"
+                        font_name: "fonts/Lcd.ttf"
+                        font_size: dp(34)
+                        opacity: .1
+                        color: 0, 1, 1, 1
+                    Label:
+                        pos: -dp(4), dp(2)
+                        text: '{:0>3}'.format(str(root.bpm))
+                        font_name: "fonts/Lcd.ttf"
+                        font_size: dp(34)
+                        color: 0, 1, 1, 1
+
+                ControlButton:
+                    size_hint_x: None
+                    width: dp(28)
+                    on_press: root.bpm += 5
+                    background_normal: "images/plus_button_normal.png"
+                    background_down: "images/plus_button_down.png"
+
+                Button:
+                    size_hint_x: None
+                    width: dp(48)
+                    text: "⏻"
+                    font_size: dp(20)
+                    bold: True
+                    color: 1, 0.35, 0.35, 1
+                    background_normal: ''
+                    background_color: 0.22, 0.05, 0.05, 1
+                    on_press: root.on_close_button_pressed()
+
+        # ── Tracks area ──
+        RelativeLayout:
+            canvas.before:
+                Color:
+                    rgba: 0.07, 0.07, 0.09, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Image:
+                source: "images/background.jpg"
+                allow_stretch: True
+                keep_ratio: False
+            BoxLayout:
+                x: dp(12)
+                y: dp(10)
+                size_hint: None, None
+                size: (self.parent.width - dp(24), self.parent.height - dp(20))
+                orientation: "vertical"
+                PlayIndicatorWidget:
+                    id: play_indicator_widget
+                    size_hint_y: None
+                    height: dp(8)
+                    left_align: root.TRACK_STEPS_LEFT_ALIGN
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    BoxLayout:
+                        size_hint_min_y: dp(72) * root.nb_tracks
+                        id: tracks_layout
+                        orientation: "vertical"

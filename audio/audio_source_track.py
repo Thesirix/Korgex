@@ -21,12 +21,11 @@ class AudioSourceTrack(ThreadSource):
         self.buffer_nb_samples = self.compute_step_nb_samples(min_bpm)
         self.silence = array('h', b"\x00\x00" * self.buffer_nb_samples)
 
-        if not self.bpm == 0:
+        if self.bpm != 0:
             n = int(self.sample_rate * 15 / self.bpm)
-            if not n == self.step_nb_samples:
+            if n != self.step_nb_samples:
                 self.step_nb_samples = n
 
-        # Piano roll: step_index -> pitch-shifted samples
         self.step_pitch_samples = {}
         self.piano_roll_notes = {}
 
@@ -43,7 +42,7 @@ class AudioSourceTrack(ThreadSource):
         self.step_pitch_samples = new_step_samples
 
     def set_steps(self, steps):
-        if not len(steps) == len(self.steps):
+        if len(steps) != len(self.steps):
             self.current_step_index = 0
         self.steps = steps
 
@@ -52,7 +51,7 @@ class AudioSourceTrack(ThreadSource):
         self.step_nb_samples = self.compute_step_nb_samples(bpm)
 
     def compute_step_nb_samples(self, bpm_value):
-        if not bpm_value == 0:
+        if bpm_value != 0:
             n = int(self.sample_rate * 15 / bpm_value)
             return n
         return 0
@@ -67,43 +66,47 @@ class AudioSourceTrack(ThreadSource):
                 return False
         return True
 
+    def _piano_roll_buf(self, samples, step_nb):
+        nb = len(samples)
+        if nb >= step_nb:
+            return array('h', samples[0:step_nb])
+        buf = array('h', samples[0:nb])
+        buf.extend(self.silence[0:step_nb - nb])
+        return buf
+
+    def _attack_buf(self, step_nb):
+        if self.nb_wav_samples >= step_nb:
+            return self.wav_samples[0:step_nb]
+        silence_nb = step_nb - self.nb_wav_samples
+        buf = array('h', self.wav_samples[0:self.nb_wav_samples])
+        buf.extend(self.silence[0:silence_nb])
+        return buf
+
+    def _sustain_buf(self, step_nb):
+        index = self.current_sample_index - self.last_sound_sample_start_index
+        if index > self.nb_wav_samples:
+            return self.silence[0:step_nb]
+        if self.nb_wav_samples - index >= step_nb:
+            return self.wav_samples[index:step_nb + index]
+        silence_nb = step_nb - self.nb_wav_samples + index
+        buf = array('h', self.wav_samples[index:self.nb_wav_samples])
+        buf.extend(self.silence[0:silence_nb])
+        return buf
+
     def get_bytes_array(self):
         step = self.current_step_index
         step_nb = self.step_nb_samples
-        result_buf = None
 
         if step in self.step_pitch_samples:
-            # Piano roll note: play pitch-shifted sample from the start
-            samples = self.step_pitch_samples[step]
-            nb = len(samples)
-            if nb >= step_nb:
-                result_buf = array('h', samples[0:step_nb])
-            else:
-                result_buf = array('h', samples[0:nb])
-                result_buf.extend(self.silence[0:step_nb - nb])
+            result_buf = self._piano_roll_buf(self.step_pitch_samples[step], step_nb)
             self.last_sound_sample_start_index = self.current_sample_index
-
         elif self.no_steps_activated():
             result_buf = self.silence[0:step_nb]
-
         elif self.steps[step] == 1:
             self.last_sound_sample_start_index = self.current_sample_index
-            if self.nb_wav_samples >= step_nb:
-                result_buf = self.wav_samples[0:step_nb]
-            else:
-                silence_nb_samples = step_nb - self.nb_wav_samples
-                result_buf = array('h', self.wav_samples[0:self.nb_wav_samples])
-                result_buf.extend(self.silence[0:silence_nb_samples])
+            result_buf = self._attack_buf(step_nb)
         else:
-            index = self.current_sample_index - self.last_sound_sample_start_index
-            if index > self.nb_wav_samples:
-                result_buf = self.silence[0:step_nb]
-            elif self.nb_wav_samples - index >= step_nb:
-                result_buf = self.wav_samples[index:step_nb + index]
-            else:
-                silence_nb_samples = step_nb - self.nb_wav_samples + index
-                result_buf = array('h', self.wav_samples[index:self.nb_wav_samples])
-                result_buf.extend(self.silence[0:silence_nb_samples])
+            result_buf = self._sustain_buf(step_nb)
 
         self.current_sample_index += step_nb
         self.current_step_index += 1
@@ -113,10 +116,10 @@ class AudioSourceTrack(ThreadSource):
         if result_buf is None:
             print("result_buf is None")
             return self.silence[0:step_nb]
-        elif not len(result_buf) == step_nb:
+        if len(result_buf) != step_nb:
             print("result_buf len is not step_nb_samples")
 
         return result_buf
 
-    def get_bytes(self, *args, **kwargs):
+    def get_bytes(self):
         return self.get_bytes_array().tobytes()

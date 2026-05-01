@@ -20,16 +20,6 @@ def sum_16bits(n):
 class AudioSourceMixer(ThreadSource):
     buf = None
 
-    # Mixer -> starter
-    #   get_bytes (appelé par la carte son)
-    #    -> AudioSourceTrack  (on les start pas)
-    #           get_bytes (appelé à la main)
-    #    -> AudioSourceTrack  (on les start pas)
-    #           get_bytes (appelé à la main)
-    #    -> AudioSourceTrack  (on les start pas)
-    #           get_bytes (appelé à la main)
-    #    -> AudioSourceTrack  (on les start pas)
-    #           get_bytes (appelé à la main)
     def __init__(self, output_stream, all_wav_samples, bpm, sample_rate, nb_steps, on_current_step_changed, min_bpm, *args, **kwargs):
         ThreadSource.__init__(self, output_stream, *args, **kwargs)
 
@@ -50,13 +40,11 @@ class AudioSourceMixer(ThreadSource):
         self.on_current_step_changed = on_current_step_changed
         self.is_playing = False
 
-    # step_nb_samples = sample_ratex15/BPM
-
     def set_steps(self, index, steps):
         if index >= len(self.tracks):
             return
 
-        if not len(steps) == self.nb_steps:
+        if len(steps) != self.nb_steps:
             self.tracks[index].set_steps(steps)
 
     def set_bpm(self, bpm):
@@ -86,11 +74,6 @@ class AudioSourceMixer(ThreadSource):
             track = self.tracks[i]
             track_buffer = track.get_bytes_array()
             track_buffers.append(track_buffer)
-
-        '''for i in range(0, step_nb_samples):
-            self.buf[i] = 0
-            for j in range(0, len(track_buffers)):
-                self.buf[i] += track_buffers[j][i]'''
 
         s = map(sum_16bits, zip(*track_buffers))
         self.buf = array('h', s)

@@ -31,7 +31,7 @@ class PlayIndicatorWidget(BoxLayout):
                 light.source = "images/indicator_light_off.png"
 
     def set_nb_steps(self, nb_steps):
-        if not nb_steps == self.nb_steps:
+        if nb_steps != self.nb_steps:
             # Reconstruire notre layout -> mettre les boutons
             self.lights = []
             self.clear_widgets()
@@ -41,10 +41,9 @@ class PlayIndicatorWidget(BoxLayout):
             dummy_widget.width = self.left_align
             self.add_widget(dummy_widget)
 
-            for i in range(0, nb_steps):
+            for _ in range(0, nb_steps):
                 light = PlayIndicatorLight()
                 light.source = "images/indicator_light_off.png"
-                #    button.state = "down"
                 self.lights.append(light)
                 self.add_widget(light)
 

@@ -80,5 +80,5 @@ class ThreadSource:
     def start(self):
         self.output_stream.register_source(self)
 
-    def get_bytes(self, *args, **kwargs):
+    def get_bytes(self):
         return b''

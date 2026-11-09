@@ -32,10 +32,10 @@ The interface is designed to look and feel like a piece of hardware placed direc
 |     | Feature               | Description                                                              |
 | --- | --------------------- | ------------------------------------------------------------------------ |
 | 🥁  | **16-Step Sequencer** | Classic step-sequencer grid with 8 sample tracks                         |
-| 🎹  | **Piano Roll Editor** | Per-track chromatic note editor (C2–B5, 48 pitches)                      |
+| 🎹  | **Piano Roll Editor** | Per-track chromatic note editor (C2-B5, 48 pitches)                      |
 | 🎚️  | **Real-time Mixing**  | Low-latency PyAudio callback pipeline with 16-bit PCM mixing             |
 | 🎵  | **Pitch Shifting**    | NumPy resampling to transpose any sample across the full chromatic scale |
-| ⏱️  | **Live BPM Control**  | Adjustable tempo 80–160 BPM with LCD-style display                       |
+| ⏱️  | **Live BPM Control**  | Adjustable tempo 80-160 BPM with LCD-style display                       |
 | 🖥️  | **Borderless UI**     | Frameless hardware-style window, fully draggable from the top bar        |
 | 🔊  | **Sample Preview**    | Click any track name to audition the sample instantly                    |
 
